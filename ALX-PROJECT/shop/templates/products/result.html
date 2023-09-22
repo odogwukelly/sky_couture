@@ -1,0 +1,60 @@
+{% extends 'cust_layout.html' %}
+<!-- Extends the customer layout template -->
+
+{% block content %}
+<!-- Define a content block within the template -->
+
+<div class="product py-5">
+    <!-- Container for displaying products -->
+    <div class="row">
+        <!-- Start a row -->
+
+        {% for product in products %}
+        <!-- Loop through the list of products -->
+
+        <div class="col-lg-3">
+            <!-- Display each product in a card -->
+            <div class="card border-0 mb-4">
+                <div class="cad-body py-5 bg-light zoom-n-rotate">
+                    <!-- Display the product's main image -->
+                    <img src="{{ url_for('static', filename='images/' + product.image_1)}}" class="card-img-top" alt="{{product.name}}" height="300">
+                </div>
+
+                {% if product.discount > 0 %}
+                <!-- Display a discount badge if a discount is available -->
+                <div class="discount">-{{product.discount}}%</div>
+                {% endif %}
+
+                <div class="card-footer border-0 text-center sm-white">
+                    <!-- Display product details -->
+                    <h5>{{product.name}}</h5>
+                    <p class="m-0"><img src="{{url_for('static', filename='image/naira.svg')}}" class="naira">{{product.price}}</p>
+                    
+                    <!-- Provide buttons for viewing product details and adding to cart -->
+                    <a href="{{url_for('single_page', id=product.id)}}" class="btn btn-sm btn-info float-left">Details</a>
+                    <form action="{{url_for('AddCart')}}" method="post">
+                        <input type="hidden" name="product_id" value="{{product.id}}">
+                        <button type="submit" class="btn btn-sm btn-warning float-right mr-0">Add to Cart</button>
+                        
+                        <!-- Hidden input fields for quantity and product colors -->
+                        <input type="hidden" name="quantity" id="" value="1">
+                        {% set colors = product.colors.split(',') %}
+                        <select name="colors" id="colors" style="visibility: hidden;">
+                            {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{ col[0]|capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+        <!-- End of the product loop -->
+    </div>
+</div>
+<!-- End of the product container -->
+
+{% endblock content %}
+<!-- End of the content block -->

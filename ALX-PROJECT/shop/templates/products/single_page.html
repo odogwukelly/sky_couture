@@ -1,0 +1,99 @@
+{% extends 'cust_layout.html' %}
+{% block content %}
+{%  include '_messages.html' %}
+
+<div class="product py-5">
+    <div class="row">
+        <div class="col-lg-5 text-center">
+            <!-- Link to display all products -->
+            <h2><a href="{{url_for('home')}}" class="btn btn-outline-info">All Products</a></h2>
+        </div>
+        <div class="nav-item dropdown">
+            <!-- Dropdown menu for brands -->
+            <a class="dropdown-toggle mr-5" id="a" data-toggle="dropdown">Brands</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                {% for brand in brands %}
+                <!-- Dropdown items for brands -->
+                <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
+                {% endfor %}
+            </div>
+        </div> 
+        <div class="nav-item dropdown">
+            <!-- Dropdown menu for categories -->
+            <a class="dropdown-toggle" id="b" data-toggle="dropdown">Categories</a>
+            <div class="dropdown-menu">
+                {% for category in categories %}
+                <!-- Dropdown items for categories -->
+                <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
+                {% endfor %}
+            </div>
+        </div> 
+    </div>
+
+    <!-- Display single product information -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6" id="b_image">
+                <!-- Display product image -->
+                <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}" 
+                    width="369" height="370">
+            </div>
+            <div class="col-md-6">
+                <h4>Product Name: {{product.name}}</h4>
+                <hr>
+                <!-- Display product price -->
+                <p>Product Price: <img src="{{url_for('static', filename='image/naira.svg')}}" class="naira">{{product.price}} Naira</p>
+                <!-- Display discount if available -->
+                {% if product.discount > 0 %}
+                <p>Product Discount: -{{product.discount}}%</p>
+                {% endif %}
+                <hr>
+                <b>Product Description</b>
+                <!-- Display product description -->
+                <p>{{product.desc}}</p>
+                <hr>
+                <form action="{{url_for('AddCart')}}" method="post">
+                    <input type="hidden" name="product_id" value="{{product.id}}">
+                    <button type="submit" class="btn btn-sm btn-warning">Add to Cart</button>
+                    <label for="">Quantity:</label>
+                    <!-- Input for selecting quantity -->
+                    <input type="number" name="quantity" id="" value="1" min="1" max="{{product.stock}}">
+                    {% set colors = product.colors.split(',') %}
+                    <label for="colors">Colors:</label>
+                    <!-- Dropdown for selecting colors -->
+                    <select name="colors" id="">
+                        {% for color in colors %}
+                        {% set col = color.split(':') %}
+                        <option value="{{col[0]}}">{{ col[0]|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mt-3" id="s_image">
+                <!-- Display smaller product images -->
+                <img src="{{url_for('static', filename='images/' + product.image_1)}}" alt="{{product.name}}" 
+                    width="120" height="120" class="p-3">
+                <img src="{{url_for('static', filename='images/' + product.image_2)}}" alt="{{product.name}}" 
+                    width="120" height="120" class="p-3">
+                <img src="{{url_for('static', filename='images/' + product.image_3)}}" alt="{{product.name}}" 
+                    width="120" height="120" class="p-3">
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript code for handling image click event -->
+    <script>
+        var b_image = document.getElementById('b_image');
+        var s_image = document.getElementById('s_image').getElementsByTagName('img');
+        for(var i = 0; i < s_image.length; i++){
+            s_image[i].addEventListener('click', full_image);
+        }
+        function full_image(){
+            var ImageSRC = this.getAttribute('src')
+            b_image.innerHTML ="<img src=" + ImageSRC + " width='369' height='370'>"
+        }
+    </script>
+
+{% endblock content %}

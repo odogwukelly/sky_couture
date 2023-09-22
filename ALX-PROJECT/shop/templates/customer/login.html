@@ -1,0 +1,123 @@
+{% extends "cust_layout.html" %}
+
+{% block content %}
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4"><h3>Log In</h3></legend>
+            
+            <!-- Email Field -->
+            <div class="form-group">
+                {{ form.email.label(class="form-control-label") }}
+                {% if form.email.errors %}
+                {{ form.email(class="form-control form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.email(class="form-control form-control") }}
+                {% endif %}
+            </div>
+            
+            <!-- Password Field -->
+            <div class="form-group">
+                {{ form.password.label(class="form-control-label") }}
+                {% if form.password.errors %}
+                {{ form.password(class="form-control form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.password(class="form-control form-control") }}
+                {% endif %}
+            </div>
+            
+            <!-- Remember Me Field -->
+            <div class="form-check">
+                {{ form.remember(class="form-check-input") }}
+                {{ form.remember.label(class="form-check-label") }}
+            </div>
+        </fieldset>
+        
+        <!-- Submit Button -->
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+        
+        <!-- Forgot Password Link -->
+        <small class="text-muted ml-2">
+            <a href="{{ url_for('reset_request') }}">Forgot Password?</a>
+        </small>
+    </form>
+</div>
+
+<!-- Sign Up Link -->
+<div class="border-top">
+    <small class="text-muted">
+        Don't Have An Account? <a class="ml-2" href="{{ url_for('register') }}">Sign Up Now</a>
+    </small>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    <div class="news pt-5">
+        <div class="container-fluid pt-3 text-white">
+            <div class="row">
+                <div class="col-lg-11 m-auto">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <h3 class="pb-3 text-white">Category</h3>
+                            <p class="m-0"><a href="#">Men</a></p>
+                            <p class="m-0"><a href="#">Women</a></p>
+                            <p class="m-0"><a href="#">Children</a></p>
+                            <p class="m-0"><a href="#">Fashion</a></p>
+                        </div>
+                        <div class="col-lg-2">
+                            <h3 class="pb-3 text-white">Company</h3>
+                            <p class="m-0"><a href="#">About</a></p>
+                            <p class="m-0"><a href="#">News</a></p>
+                            <p class="m-0"><a href="#">FAQ's</a></p>
+                            <p class="m-0"><a href="#">Contact</a></p>
+                        </div>
+                        <div class="col-lg-3">
+                            <h3 class="pb-3 text-white">Address</h3>
+                            <p>86, Osubi Effurun Delta State <br>+234-812-929-6835</p>
+                            <a href="#">Contact@skycouture.com</a>
+                        </div>
+                        <div class="col-lg-5 news-l">
+                            <h3 class="pb-3 text-white">Newsletter</h3>
+                            <form action="" class="d-flex">
+                                <input type="text" class="sub p-3" placeholder="Your Email">
+                                <button class="btns">Subscribe</button>
+                            </form>
+                            <div class="icon1 d-flex text-center">
+                                <div class="circle p-2">
+                                    <i class="fab fa-facebook-f"></i>
+                                </div>
+                                <div class="circle p-2 mx-3">
+                                    <i class="fab fa-twitter"></i>
+                                </div>
+                                <div class="circle p-2">
+                                    <i class="fab fa-instagram"></i>
+                                </div>
+                                <div class="circle p-2 mx-3">
+                                    <i class="fab fa-linkedin pb-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="h-rule">
+                    <p class="text-center pb-3 copy">Copyright ©2023 All right reserved | This template is made by ICE TECH</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar-f navbar-expand-md navbar-dark bg-steel fixed-bottom">
+    </nav>
+</footer>
+{% endblock content %}

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Empty column to create space on the left -->
+        <div class="col-md-3"></div>
+        <!-- Main content column -->
+        <div class="col-md-6">
+            <!-- Include messages (if any) -->
+            {% include "_messages.html" %}
+            
+            <!-- Check if you're updating a brand -->
+            {% if updatebrand %}
+            <!-- Heading for adding or updating a brand -->
+            <h1 class="text-center mt-5">Update Brand</h1>
+            <!-- Form for adding or updating a brand -->
+            <form action="" method="POST">
+                <!-- Input field for brand name with value if updating -->
+                <input type="text" name="brand" class="form-control" value="{{ updatebrand.name }}">
+                <!-- Submit button for updating a brand -->
+                <input type="submit" value="Update Brand" class="btn btn-info mt-2">
+            </form>
+            <!-- Cancel button with a link to the 'brands' page -->
+            <a href="{{url_for('brands')}}", class="btn btn-warning", style="margin-top: -67px; margin-left: 140px;">Cancel</a>
+            {% else %}
+            <!-- Heading for adding or updating a category -->
+            <h1 class="text-center mt-5">Update Category</h1>
+            <!-- Form for adding or updating a category -->
+            <form action="" method="POST">
+                <!-- Input field for category name with value if updating -->
+                <input type="text" name="category" class="form-control" value="{{ updatecat.name }}">
+                <!-- Submit button for updating a category -->
+                <input type="submit" value="Update Category" class="btn btn-info mt-2">
+            </form>
+            <!-- Cancel button with a link to the 'category' page -->
+            <a href="{{url_for('category')}}", class="btn btn-warning", style="margin-top: -67px; margin-left: 160px;">Cancel</a>
+            {% endif %}
+        </div>
+        <!-- Empty column to create space on the right -->
+        <div class="col-3"></div>
+    </div>
+</div>
+{% endblock content %}

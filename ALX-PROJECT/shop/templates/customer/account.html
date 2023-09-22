@@ -1,0 +1,27 @@
+{% extends "cust_layout.html" %}
+{% block content %}
+
+<!-- User Profile Information -->
+<div class="pb-5">
+    <!-- Display Username -->
+    <h4 class="ml-5">Username</h4>
+    <p class="ml-5">{{ current_user.username }}</p>
+
+    <!-- Display Email -->
+    <h4 class="ml-5">Email</h4>
+    <p class="ml-5">{{ current_user.email }}</p>
+
+    <!-- Display Date Of Birth -->
+    <h4 class="ml-5">Date Of Birth</h4>
+    <p class="ml-5">{{ current_user.date_of_birth }}</p>
+
+    <!-- Display Gender -->
+    <h4 class="ml-5">Gender</h4>
+    <p class="ml-5">{{ current_user.gender }}</p>
+
+    <!-- Display Date Joined -->
+    <h4 class="ml-5">Date Joined</h4>
+    <p class="ml-5">{{ current_user.date_created }}</p>
+</div>
+
+{% endblock content %}

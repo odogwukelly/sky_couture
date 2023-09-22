@@ -1,0 +1,232 @@
+{% extends 'cust_layout.html' %}
+{% block content %}
+<!-- Start the content block -->
+
+<div class="product py-5">
+    <div class="row">
+        <!-- Filter options for brands and categories -->
+        <div class="col-lg-5 text-center">
+            <h2><a href="{{url_for('home')}}" class="btn btn-outline-info">All Products</a></h2>
+        </div>
+        <div class="nav-item dropdown">
+            <a class="dropdown-toggle mr-5" id="a" data-toggle="dropdown">Brands</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                {% for brand in brands %} 
+                <!-- Dropdown items for brands -->
+                <a class="dropdown-item" href="{{url_for('get_brand', id=brand.id)}}">{{brand.name}}</a>
+                {% endfor %}
+            </div>
+        </div> 
+        <div class="nav-item dropdown">
+            <a class="dropdown-toggle" id="b" data-toggle="dropdown">Categories</a>
+            <div class="dropdown-menu">
+                {% for category in categories %}
+                <!-- Dropdown items for categories -->
+                <a class="dropdown-item" href="{{url_for('get_category', id=category.id)}}">{{category.name}}</a>
+                {% endfor %}
+            </div>
+        </div> 
+    </div>
+
+    <!-- Pagination for brand-specific products -->
+    <div class="row pt-5">
+        {% if brand %}
+        {% for b in brand.items %}
+        <div class="col-lg-3">
+            <!-- Display brand-specific products in cards -->
+            <div class="card border-0 mb-4">
+                <!-- Product image and details -->
+                <div class="cad-body py-5 bg-light zoom-n-rotate">
+                    <img src="{{ url_for('static', filename='images/' + b.image_1)}}" class="card-img-top" alt="{{b.name}}" height="300">
+                </div>
+                <!-- Display discount if available -->
+                {% if b.discount > 0 %}
+                <div class="discount">-{{b.discount}}%</div>
+                {% endif %}
+                <div class="card-footer border-0 text-center sm-white">
+                    <!-- Product name and price -->
+                    <h5>{{b.name}}</h5>
+                    <p class="m-0"><img src="{{url_for('static', filename='image/naira.svg')}}" class="naira">{{b.price}}</p>
+                    
+                    <!-- Add to cart form and options -->
+                    <a href="{{url_for('single_page', id=b.id)}}" class="btn btn-sm btn-info float-left">Details</a>
+                    <form action="{{url_for('AddCart')}}" method="post">
+                        <input type="hidden" name="product_id" value="{{b.id}}">
+                        <button type="submit" class="btn btn-sm btn-warning float-right mr-0">Add to Cart</button>
+                        <input type="hidden" name="quantity" id="" value="1">
+                        {% set colors = b.colors.split(',') %}
+                        <select name="colors" id="colors" style="visibility: hidden;">
+                            {% for color in colors %}
+                            {% set col = color.split(':') %}
+                            <option value="{{col[0]}}">{{ col[0]|capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Pagination controls for brand-specific products -->
+<div class="row mb-4">
+    <div class="col text-center">
+        <!-- Display previous and next page links if available -->
+        {% if brand.has_prev %}
+        <a href="{{url_for('get_brand', id=get_b.id, page=brand.prev_num)}}" class="btn btn-info btn-sm">Previous</a>
+        {% endif %}
+        {% if brand.total > 4 %}
+        {% for page_num in brand.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+        {% if page_num %}
+        {% if brand.page == page_num %}
+        <a href="{{url_for('get_brand', id=get_b.id, page=page_num)}}" class="btn btn-info btn-sm">{{ page_num }}</a>
+        {% else %}
+        <a href="{{url_for('get_brand', id=get_b.id, page=page_num)}}" class="btn btn-outline-info btn-sm">{{ page_num }}</a>
+        {% endif %}
+        {% else %}
+        ....
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% if brand.has_next %}
+        <a href="{{url_for('get_brand', id=get_b.id, page=brand.next_num)}}" class="btn btn-info btn-sm">Next</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Pagination for category-specific products -->
+<div class="row">
+    {% elif get_cat_prod %}
+    {% for get_cat in get_cat_prod.items %}
+    <div class="col-lg-3">
+        <!-- Display category-specific products in cards -->
+        <div class="card border-0 mb-4">
+            <!-- Product image and details -->
+            <div class="cad-body py-5 bg-light zoom-n-rotate">
+                <img src="{{ url_for('static', filename='images/' + get_cat.image_1)}}" class="card-img-top" alt="{{get_cat.name}}" height="300">
+            </div>
+            <!-- Display discount if available -->
+            {% if get_cat.discount > 0 %}
+            <div class="discount">-{{get_cat.discount}}%</div>
+            {% endif %}
+            <div class="card-footer border-0 text-center sm-white">
+                <!-- Product name and price -->
+                <h5>{{get_cat.name}}</h5>
+                <p class="m-0"><img src="{{url_for('static', filename='image/naira.svg')}}" class="naira">{{get_cat.price}}</p>
+                
+                <!-- Add to cart form and options -->
+                <a href="{{url_for('single_page', id=get_cat.id)}}" class="btn btn-sm btn-info float-left">Details</a>
+                <form action="{{url_for('AddCart')}}" method="post">
+                    <input type="hidden" name="product_id" value="{{get_cat.id}}">
+                    <button type="submit" class="btn btn-sm btn-warning float-right mr-0">Add to Cart</button>
+                    <input type="hidden" name="quantity" id="" value="1">
+                    {% set colors = get_cat.colors.split(',') %}
+                    <select name="colors" id="colors" style="visibility: hidden;">
+                        {% for color in colors %}
+                        {% set col = color.split(':') %}
+                        <option value="{{col[0]}}">{{ col[0]|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination controls for category-specific products -->
+<div class="row mb-4">
+    <div class="col text-center">
+        <!-- Display previous and next page links if available -->
+        {% if get_cat_prod.has_prev %}
+        <a href="{{url_for('get_category', id=get_cat.id, page=get_cat_prod.prev_num)}}" class="btn btn-info btn-sm">Previous</a>
+        {% endif %}
+        {% if get_cat_prod.total > 4 %}
+        {% for page_num in get_cat_prod.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
+        {% if page_num %}
+        {% if get_cat_prod.page == page_num %}
+        <a href="{{url_for('get_category', id=get_cat.id, page=page_num)}}" class="btn btn-info btn-sm">{{ page_num }}</a>
+        {% else %}
+        <a href="{{url_for('get_category', id=get_cat.id, page=page_num)}}" class="btn btn-outline-info btn-sm">{{ page_num }}</a>
+        {% endif %}
+        {% else %}
+        ....
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% if get_cat_prod.has_next %}
+        <a href="{{url_for('get_category', id=get_cat.id, page=get_cat_prod.next_num)}}" class="btn btn-info btn-sm">Next</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Pagination for all products -->
+<div class="row">
+    {% else %}
+    {% for product in products.items %} 
+    <div class="col-lg-3">
+        <!-- Display all products in cards -->
+        <div class="card border-0 mb-4">
+            <!-- Product image and details -->
+            <div class="cad-body py-5 bg-light zoom-n-rotate">
+                <img src="{{ url_for('static', filename='images/' + product.image_1)}}" class="card-img-top" alt="{{product.name}}" height="300">
+            </div>
+            <!-- Display discount if available -->
+            {% if product.discount > 0 %}
+            <div class="discount">-{{product.discount}}%</div>
+            {% endif %}
+            <div class="card-footer border-0 text-center sm-white">
+                <!-- Product name and price -->
+                <h5>{{product.name}}</h5>
+                <p class="m-0"><img src="{{url_for('static', filename='image/naira.svg')}}" class="naira">{{product.price}}</p>
+                
+                <!-- Add to cart form and options -->
+                <a href="{{url_for('single_page', id=product.id)}}" class="btn btn-sm btn-info float-left">Details</a>
+                <form action="{{url_for('AddCart')}}" method="post">
+                    <input type="hidden" name="product_id" value="{{product.id}}">
+                    <button type="submit" class="btn btn-sm btn-warning float-right mr-0">Add to Cart</button>
+                    <input type="hidden" name="quantity" id="" value="1">
+                    {% set colors = product.colors.split(',') %}
+                    <select name="colors" id="colors" style="visibility: hidden;">
+                        {% for color in colors %}
+                        {% set col = color.split(':') %}
+                        <option value="{{col[0]}}">{{ col[0]|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination controls for all products -->
+<div class="row mt-3">
+    <div class="col text-center">
+        <!-- Display previous and next page links if available -->
+        {% if products.has_prev %}
+        <a href="{{url_for('home', page=products.prev_num)}}" class="btn btn-info btn-sm">Previous</a>
+        {% endif %}
+        {% if products.total > 4 %}
+        {% for page_num in products.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=1) %}
+        {% if page_num %}
+        {% if products.page == page_num %}
+        <a href="{{url_for('home', page=page_num)}}" class="btn btn-info btn-sm">{{ page_num }}</a>
+        {% else %}
+        <a href="{{url_for('home', page=page_num)}}" class="btn btn-outline-info btn-sm">{{ page_num }}</a>
+        {% endif %}
+        {% else %}
+        ...
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% if products.has_next %}
+        <a href="{{url_for('home', page=products.next_num)}}" class="btn btn-info btn-sm">Next</a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+</div>
+{% endblock content %}
+<!-- End of the content block -->

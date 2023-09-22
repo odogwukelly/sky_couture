@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% include '_messages.html' %}
+
+    <div class="container mt-5">
+        <table class="table table-sm table-condensed table-striped">
+            <thead>
+                <th>S/N</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Discount</th>
+                <th>Brand</th>
+                <th>Image</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }} Naira</td>
+                    <td>{{ product.discount }} %</td>
+                    <td>{{ product.brand.name }}</td>
+                    <td><img src="{{ url_for('static', filename='images/' + product.image_1) }}" width="70" height="60"></td>
+                    <td><a href="{{ url_for('updateproduct', id=product.id) }}" class="btn btn-info btn-sm">Edit</a></td>
+                    <td>
+                        <!-- Button to trigger the delete modal -->
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-{{ product.id }}">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+
+                <!-- Delete Modal -->
+                <div class="modal fade" id="exampleModal-{{ product.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{ product.name }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="text-danger">Are you sure that you want to delete this <strong class="text-primary">({{ product.name }})</strong> product</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">Cancel</button>
+                                <!-- Form to submit the delete request -->
+                                <form action="{{ url_for('deleteproduct', id=product.id) }}" method="POST">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css')}}">
+
+    <!-- Set the page title dynamically -->
+    <title>{{ title }}</title>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{{ url_for('admin')}}">Admin</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <!-- Home link -->
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('admin')}}">Home<span class="sr-only">(current)</span></a>
+                    </li>
+                    <!-- Brands link -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/brands">Brands</a>
+                    </li>
+                    <!-- Categories link -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/category">Categories</a>
+                    </li>
+                    <!-- Product dropdown menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Product
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <!-- Add Product link -->
+                            <a class="dropdown-item" href="{{ url_for('addproduct')}}">Add Product</a>
+                            <!-- Add Brand link -->
+                            <a class="dropdown-item" href="{{ url_for('addbrand')}}">Add Brand</a>
+                            <!-- Add Category link -->
+                            <a class="dropdown-item" href="{{ url_for('addcat')}}">Add Category</a>
+                        </div>
+                    </li>
+                    <!-- Logout link -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_logout')}}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Content Block: Specific content for each page will be inserted here -->
+    {% block content %}
+    {% endblock content %}
+
+    <!-- JavaScript scripts for Bootstrap and jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+</body>
+</html>

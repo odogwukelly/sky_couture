@@ -1,0 +1,50 @@
+{% extends 'cust_layout.html' %}
+{% block content %}
+<div class="container mb-5">
+    <h3>Introduction</h3>
+    <p> SkyCouture is a comprehensive e-commerce platform designed 
+        to provide a seamless shopping experience for high-end fashion <br>
+        enthusiasts. Our project aims to connect users with a curated 
+        selection of premium fashion products, offering a user-friendly <br>
+        interface, secure payment processing, and personalized recommendations. <br> <br>
+    </p>
+    <h4>Team Members/Roles:</h4>
+    <p> Ayomide kappo: Frontend Developer <br>
+        Odogwu Kelly: Backend Developer <br>
+        Micaiah Adam: Frontend Developer <br><br>
+    </p>
+    <h3>Key Features:</h3>
+    <h5>User Registration:</h5>
+    <p> Users can create accounts by providing a username, email, password, <br> 
+        date of birth, and gender. Validation ensures unique usernames and emails, <br> 
+        Passwords are securely hashed before storage <br><br>
+    </p>
+    <h5>User Login:</h5>
+    <p>
+        Registered users can log in with their email and password. Authentication is <br>
+        handled securely, and users are remembered if they choose to do so. <br><br>
+    </p>
+    <h5>Password Reset:</h5>
+    <p>
+        Users who forget their passwords can request a password reset via email. A time-limited <br> 
+        token is generated for password reset links. Security measures are implemented to prevent <br> 
+        misuse of reset tokens. These features collectively form the foundation of your e-commerce <br> 
+        platform, allowing users to register, log in, and recover their accounts when necessary. Your <br> 
+        project has come together to create a secure and user-friendly online fashion store, and it <br> 
+        showcases your team's dedication to web development and delivering value to users. <br><br>
+    </p>
+    <h5>View product details</h5>
+    <p>
+        Users can view product details before adding to cart to either choose a preferred color <br> 
+        or select the number of products to be added to the cart.
+    </p>
+    <h5>Add to cart/Delete from cart</h5>
+    <p>
+        Users can add a product to the cart and also have the ability to delete a product from the cart.
+    </p>
+    <h5>Clear cart</h5>
+    <p>
+        Users can clear all products added to the cart at once.
+    </p>
+</div>
+{% endblock content %}

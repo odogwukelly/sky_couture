@@ -1,0 +1,28 @@
+{% macro render_field(field) %}
+    <!-- Define a Jinja2 macro that takes a 'field' argument (typically a WTForms field) -->
+
+    <dt>{{ field.label }}
+    <!-- Render the field's label using a definition term (dt) element -->
+
+    <dd>{{ field(**kwargs) |safe }}
+    <!-- Render the field itself using the 'field' variable and any additional keyword arguments (**kwargs) passed to the macro -->
+    <!-- The '|safe' filter is used to indicate that the field's content is safe HTML and should not be escaped -->
+
+     {% if field.errors %}
+        <!-- Check if the field has validation errors -->
+        <ul class=errors>
+        <!-- Create an unordered list for displaying errors -->
+        
+        {% for error in field.errors %}
+           <!-- Iterate through each error in the field's errors -->
+           <li>{{ error }}</li>
+           <!-- Display the error message within a list item (li) element -->
+        {% endfor %}
+        
+        </ul>   
+        <!-- Close the unordered list -->
+      {% endif %}
+    </dd>
+    <!-- Close the definition description (dd) element -->
+{% endmacro %}
+<!-- End of the Jinja2 macro definition -->
